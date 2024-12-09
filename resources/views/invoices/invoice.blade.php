@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="images/favicon.png" rel="icon" />
-    <title>General Invoice - Koice</title>
+    <title>General Invoice - AbayaLite</title>
     <meta name="author" content="harnishdesign.net">
 
     <!-- Web Fonts
