@@ -28,7 +28,7 @@
         <header>
             <div class="row align-items-center">
                 <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
-                    <img id="logo" src="{{ asset('storage/logo/'.@$settings->logo) }}" title="Koice" alt="Koice" />
+                    <img id="logo" src="{{ asset('storage/logo/'.@$settings->logo) }}" title="AbayaLite" alt="AbayaLite" />
                 </div>
                 <div class="col-sm-5 text-center text-sm-end">
                     <h4 class="text-7 mb-0">Invoice</h4>
@@ -51,7 +51,7 @@
                         {{ $settings->shop_name }}<br />
                         2705 N. Enterprise St<br />
                         Orange, CA 92865<br />
-                        contact@koiceinc.com
+                        contact@AbayaLite.com
                     </address>
                 </div>
                 <div class="col-6 text-end"> <strong>Invoiced To:</strong>
