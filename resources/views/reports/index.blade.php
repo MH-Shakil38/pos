@@ -79,7 +79,7 @@
         <table class="GeneratedTable">
             <thead>
                 <tr>
-                    <th class="text-center" colspan="2"><i>Oslo Mobile Mart</i><br>
+                    <th class="text-center" colspan="2"><i>{{ $settings->shop_name }}</i><br>
                         <b class="text-capitalize">
                             {{ $_GET['range'] }} Report
                         </b>
