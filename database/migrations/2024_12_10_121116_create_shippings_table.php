@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->string('invoice_no');
-            $table->integer('customer_id');
-            $table->integer('shipping_id');
-            $table->json('products');
-            $table->integer('total');
-            $table->integer('due');
-            $table->string('status');
-            $table->string('profit');
+            $table->string('currier_number')->nullable();
+            $table->integer('shipping_cost')->nullable();
+            $table->unsignedBigInteger('invoice_no')->nullable();
+            $table->integer('status')->default(1)->comment('1-pending,2-success,3-Return');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('shippings');
     }
 };

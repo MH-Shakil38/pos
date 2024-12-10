@@ -1,7 +1,6 @@
-
 @extends('layouts.layout')
 
-@section('title','Brands')
+@section('title','Sizes')
 
 @push('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
@@ -26,7 +25,7 @@
 @section('main')
 <div class="card">
     <div class="card-header">
-        <h5>Brands</h5>
+        <h5>Sizes</h5>
     </div>
     <div class="card-body">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -34,38 +33,23 @@
                 <tr>
                     <th width="10">#</th>
                     <th>Name</th>
-                    <th>Product Name</th>
-                    <th>Qnty</th>
-                    <th>Buying Price</th>
-                    <th>Selling Price</th>
-                    <th>Status</th>
-                    <th>Paid</th>
-                    <th>Due</th>
+                    <th>Product Count</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($batches as $key => $batch)
+                @foreach($sizes as $key => $size)
                 <tr class="table-info">
                     <td>{{ $key + 1 }}</td>
-                    <td><span class="badge badge-info">{{ $batch->batch_no }}</span></td>
-                    <td>{{ optional($batch->product)->name }} - ({{ optional($batch->product)->color->name ?? ''  }} {{ optional($batch->product)->size->name ?? ''  }}) - ({{ optional($batch->product)->trashed() ? 'Deleted' : '' }})</td>
-                    <td>{{ $batch->quantity }}</td>
-                    <td>{{ $batch->purchase_price }}</td>
-                    <td>{{ $batch->sell_price }}</td>
-                    <td>{{ $batch->status }}</td>
-                    <td>{{ $batch->total_purchase_cost - $batch->due_amount }}</td>
-                    <td>{{ $batch->due_amount }}</td>
-                    <td>
-                        <a class="text-info" href="{{ route('batches.edit', $batch->id) }}"><i
-                                class="feather icon-edit"></i> Edit Batch</a><br>
-                        <a class="text-info" href="{{ url('batches/'.$batch->id.'/edit?type=adjust_payment') }}"><i
-                                class="feather icon-edit"></i> Adjust Payment</a><br>
-                        <a class="text-danger" href="javascript:{}" onclick="deleteFunction({{ $batch->id }})"><i
+                    <td>{{ $size->name }}</td>
+                    <td>0</td>
+                    <td><a class="text-info" href="{{ route('sizes.edit', $size->id) }}"><i
+                                class="feather icon-edit"></i> Edit</a>|
+                        <a class="text-danger" href="javascript:{}" onclick="deleteFunction({{ $size->id }})"><i
                                 class="feather icon-trash"></i>
                             Delete</a>
-                        <form method="POST" id="deleteForm_{{ $batch->id }}"
-                            action="{{ route('batches.destroy', $batch->id) }}">
+                        <form method="POST" id="deleteForm_{{ $size->id }}"
+                            action="{{ route('sizes.destroy', $size->id) }}">
                             @method('DELETE')
                             @csrf
                         </form>
@@ -75,15 +59,9 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th width="10">#</th>
+                    <th>#</th>
                     <th>Name</th>
-                    <th>Product Name</th>
-                    <th>Qnty</th>
-                    <th>Buying Price</th>
-                    <th>Selling Price</th>
-                    <th>Status</th>
-                    <th>Paid</th>
-                    <th>Due</th>
+                    <th>Product Count</th>
                     <th>Action</th>
                 </tr>
             </tfoot>
@@ -113,7 +91,7 @@
 
         // User pressed yes!
         $('#deleteForm_'+id).submit();
-        JSAlert.alert("Batch deleted!");
+        JSAlert.alert("Size deleted!");
 
         });
 

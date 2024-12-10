@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,9 +26,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $brands = Brand::all();
-        $categories = Category::all();
-        return view('products.create', compact('brands', 'categories'));
+        $data['brands'] = Brand::all();
+        $data['sizes'] = Size::all();
+        $data['colors'] = Color::all();
+        $data['categories'] = Category::all();
+        return view('products.create')->with($data);
     }
 
     /**
@@ -37,7 +41,6 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'brand_id' => 'required',
             'image' => 'required | image | mimes:jpg,bmp,png',
         ]);
 
@@ -58,6 +61,8 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->brand_id = $request->brand_id;
+        $product->color_id = $request->color_id;
+        $product->size_id = $request->size_id;
         $product->image = $imageName;
 
         $product->save();
@@ -80,9 +85,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $brands = Brand::all();
-        $categories = Category::all();
-        return view('products.edit', compact('product', 'brands', 'categories'));
+        $data['product']    = $product;
+        $data['brands']     = Brand::all();
+        $data['sizes']      = Size::all();
+        $data['colors']     = Color::all();
+        $data['categories'] = Category::all();
+        return view('products.edit')->with($data);
     }
 
     /**
@@ -93,7 +101,6 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'brand_id' => 'required',
             'image' => 'image | mimes:jpg,bmp,png',
         ]);
 
@@ -115,6 +122,8 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->brand_id = $request->brand_id;
+        $product->color_id = $request->color_id;
+        $product->size_id = $request->size_id;
         $product->image = $imageName;
 
         $product->save();

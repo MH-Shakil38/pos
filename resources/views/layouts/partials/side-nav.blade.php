@@ -43,6 +43,24 @@
 
                 <li class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link "><span class="pcoded-micon"><i
+                                class="feather icon-droplet text-danger"></i></span><span class="pcoded-mtext">Colors</span></a>
+                    <ul class="pcoded-submenu">
+                        <li><a href="{{ route('colors.index') }}">Color's</a></li>
+                        <li><a href="{{ route('colors.create') }}">Add New Color</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item pcoded-hasmenu">
+                    <a href="#!" class="nav-link "><span class="pcoded-micon"><i
+                                class="feather icon-maximize"></i></span><span class="pcoded-mtext">Sizes</span></a>
+                    <ul class="pcoded-submenu">
+                        <li><a href="{{ route('sizes.index') }}">Sizes</a></li>
+                        <li><a href="{{ route('sizes.create') }}">Add New Size</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item pcoded-hasmenu">
+                    <a href="#!" class="nav-link "><span class="pcoded-micon"><i
                                 class="feather icon-layers"></i></span><span class="pcoded-mtext">Categories</span></a>
                     <ul class="pcoded-submenu">
                         <li><a href="{{ route('categories.index') }}">Categories</a></li>

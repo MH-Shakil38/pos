@@ -57,28 +57,55 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Product Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Product Name">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Product Name" value="{{ old('name') }}">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Add A Brief Description</label>
                         <textarea name="description" class="form-control" id="exampleFormControlTextarea1"
-                            rows="4"></textarea>
+                            rows="4">{{ old('description') }}</textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Select A Brand</label>
-                        <select class="form-control" id="exampleFormControlSelect1" name="brand_id">
-                            <option selected disabled>Please select a brand</option>
-                            @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select A Brand</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="brand_id">
+                                    <option selected disabled>Please select a brand</option>
+                                    @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id ?? old('brand_id') }}">{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select A Color</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="color_id">
+                                    <option selected disabled>Please select a Color</option>
+                                    @foreach ($colors as $color)
+                                    <option value="{{ $color->id  ?? old('color_id')}}">{{ $color->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select A Size</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="size_id">
+                                    <option selected disabled>Please select a Size</option>
+                                    @foreach ($sizes as $size)
+                                    <option value="{{ $size->id  ?? old('size_id')}}" >{{ $size->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="categories">Select Categories</label>
                         <select class="form-control js-examples-basic-multiple" name="categories[]" id="categories"
                             multiple resolve>
                             @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id  ?? old('categories')}}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>

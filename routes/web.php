@@ -10,9 +10,12 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SizeController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +37,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('products', ProductController::class);
     // Managing the brands
     Route::resource('brands', BrandController::class);
+     // Managing the size
+     Route::resource('sizes', SizeController::class);
+      // Managing the color
+    Route::resource('colors', ColorController::class);
     // Managing the categories
     Route::resource('categories', CategoryController::class);
     // Managing the batches
@@ -52,4 +59,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports');
     // Managing Reports
     Route::resource('/setting', SettingController::class);
+    //migrate-fresh
+    Route::get('migrate-fresh',function(){
+        Artisan::call('migrate:fresh');
+        Artisan::call('db:seed');
+    });
+    //migrate-fresh
+    Route::get('optimize',function(){Artisan::call('optimize');});
 });

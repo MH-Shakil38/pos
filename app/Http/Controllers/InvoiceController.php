@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Shipping;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -48,25 +50,38 @@ class InvoiceController extends Controller
             "status" => "required",
         ]);
 
+        try {
+            DB::beginTransaction();
+            $products = $request['products'];
+            foreach ($products as $key => $product) {
+                $batch = Batch::find($product['batch_id']);
+                $batch->rem_quantity -= $product['quantity'];
+                $batch->update();
+                $profit += $product['total'] - ($batch->purchase_price * $product['quantity']);
+            };
 
-        $products = $request['products'];
-        foreach ($products as $key => $product) {
-            $batch = Batch::find($product['batch_id']);
-            $batch->rem_quantity -= $product['quantity'];
-            $batch->update();
-            $profit += $product['total'] - ($batch->purchase_price * $product['quantity']);
-        };
+            // store shipping
+            $shipping = new Shipping();
+            $shipping['currier_number'] = $request->currier_number ?? 0;
+            $shipping['shipping_cost'] = $request->shipping_cost ?? 0;
+            $shipping->save();
 
-        $invoice = new Invoice();
-        $invoice->invoice_no = Carbon::now()->format('dmY') . '-' . $invoice_count;
-        $invoice->customer_id = $request->customer_id;
-        $invoice->products = json_encode($request->products);
-        $invoice->total = $request->total;
-        $invoice->due = $request->due_amount;
-        $invoice->status = $request->status;
-        $invoice->profit = $profit;
-        $invoice->save();
-        return redirect()->route('invoices.show', $invoice);
+            // store invoice
+            $invoice = new Invoice();
+            $invoice->invoice_no = Carbon::now()->format('dmY') . '-' . $invoice_count;
+            $invoice->customer_id = $request->customer_id;
+            $invoice->shipping_id = $shipping->id;
+            $invoice->products = json_encode($request->products);
+            $invoice->total = $request->total;
+            $invoice->due = $request->due_amount;
+            $invoice->status = $request->status;
+            $invoice->profit = $profit;
+            $invoice->save();
+            DB::commit();
+            return redirect()->route('invoices.show', $invoice);
+        } catch (\Throwable $e) {
+            dd($e);
+        }
     }
 
     /**
@@ -75,6 +90,7 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         $products = json_decode($invoice->products);
+        return view('invoices.58m-invoice', compact('invoice', 'products'));
         return view('invoices.invoice', compact('invoice', 'products'));
     }
 

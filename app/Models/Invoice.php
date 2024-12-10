@@ -17,4 +17,9 @@ class Invoice extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function shipping(): BelongsTo
+    {
+        return $this->belongsTo(Shipping::class);
+    }
 }

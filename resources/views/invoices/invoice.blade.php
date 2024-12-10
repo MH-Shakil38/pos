@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
 </head>
 
-<body>
+<body >
     <!-- Container -->
     <div class="container-fluid invoice-container">
         <!-- Header -->

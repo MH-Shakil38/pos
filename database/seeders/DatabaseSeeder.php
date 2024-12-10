@@ -26,12 +26,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('brands')->insert([
-            ['name' => 'Category 1'],
+            ['name' => 'Abaya Lite'],
         ]);
 
         DB::table('categories')->insert([
             ['name' => 'Borka'],
-            ['name' => 'Hijab']
+            ['name' => 'Hijab'],
+            ['name' => 'Abaya Lite'],
         ]);
 
         DB::table('customers')->insert([

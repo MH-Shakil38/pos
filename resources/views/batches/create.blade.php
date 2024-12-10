@@ -31,9 +31,9 @@
     @csrf
     <div class="row"
         x-effect="total_purchase_cost = quantity * purchase_price, due_amount = total_purchase_cost - paid_amount, paid_amount = total_purchase_cost - due_amount"
-        x-data="{ 
-        quantity: 0, 
-        purchase_price: 0, 
+        x-data="{
+        quantity: 0,
+        purchase_price: 0,
         total_purchase_cost: 0,
         status: '',
         paid: false,
@@ -59,7 +59,7 @@
                         <label for="products">Select A Product</label>
                         <select class="form-control js-example-basic-single" name="product_id" id="products">
                             @foreach ($products as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            <option value="{{ $product->id }}">{{ $product->name }} - ({{ $product->color->name ?? ''  }} - {{ $product->size->name ?? '' }}) </option>
                             @endforeach
                         </select>
                     </div>

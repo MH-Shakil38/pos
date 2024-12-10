@@ -65,16 +65,45 @@
                         <textarea name="description" class="form-control" id="exampleFormControlTextarea1"
                             rows="4">{{ $product->description }}</textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Select A Brand</label>
-                        <select class="form-control" id="exampleFormControlSelect1" name="brand_id">
-                            <option selected disabled>Please select a brand</option>
-                            @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? 'selected' : '' }}>{{
-                                $brand->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select A Brand</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="brand_id">
+                                    <option selected disabled>Please select a brand</option>
+                                    @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}" {{ $brand->id == $product->brand_id ? 'selected' : '' }}>{{
+                                        $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select A Color</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="color_id">
+                                    <option selected disabled>Please select a Color</option>
+                                    @foreach ($colors as $color)
+                                    <option value="{{ $color->id }}" {{ $color->id == $product->color_id ? 'selected' : '' }}>{{
+                                        $color->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Select A Size</label>
+                                <select class="form-control" id="exampleFormControlSelect1" name="size_id">
+                                    <option selected disabled>Please select a Color</option>
+                                    @foreach ($sizes as $size)
+                                    <option value="{{ $size->id }}" {{ $size->id == $product->size_id ? 'selected' : '' }}>{{
+                                        $size->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="categories">Select Categories</label>
                         <select class="form-control js-examples-basic-multiple" name="categories[]" id="categories"

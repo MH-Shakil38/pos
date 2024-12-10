@@ -42,6 +42,12 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->address = $request->address;
         $customer->save();
+        if($request->ajax()){
+            $data['customers'] = Customer::query()->latest()->get();
+            $data['last'] = $customer;
+            $customer = view('customers.ajax-customer-option')->with($data)->render();
+            return response()->json(['customer'=>$customer,'message' => 'Customer added successfully!'], 200);
+        }
         return redirect()->route('customers.index');
     }
 
