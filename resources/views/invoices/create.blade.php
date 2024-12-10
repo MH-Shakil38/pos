@@ -115,7 +115,7 @@
     }">
         @csrf
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-4 col-lg-4 col-sm-12">
                 <div class="card">
                     <div class="card-header">
                         <h5>Create Invoice</h5>
@@ -131,10 +131,10 @@
                                 <option></option>
                                 @foreach ($batches as $product)
                                     <option
-                                        product_name="{{ $product->product->name  }} ({{ $product->product->color->name ?? ''  }},{{ $product->product->size->name ?? '' }})"
+                                        product_name="{{ $product->product->name }} ({{ $product->product->color->name ?? '' }},{{ $product->product->size->name ?? '' }})"
                                         product_price="{{ $product->sell_price }}" value="{{ $product->id }}">
                                         {{ $product->product->name }}
-                                        ({{ $product->product->color->name ?? ''  }},{{ $product->product->size->name ?? '' }})
+                                        ({{ $product->product->color->name ?? '' }},{{ $product->product->size->name ?? '' }})
                                         -
                                         <span>Purchase Price: {{ $product->purchase_price }} tk/-</span>
                                     </option>
@@ -177,7 +177,8 @@
                                     <label for="paid">Paid <small class="text-info">[Taka]</small></label>
                                     <input type="number" class="form-control" id="paid" x-ref="paid"
                                         placeholder="Paid Amount"
-                                        x-on:input="$refs.due.value = $refs.total.value - $refs.paid.value" x-on:blur="setStatus()">
+                                        x-on:input="$refs.due.value = $refs.total.value - $refs.paid.value"
+                                        x-on:blur="setStatus()">
                                 </div>
                             </div>
                         </div>
@@ -186,14 +187,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Due<small class="text-info">[Taka]</small></label>
-                                    <input type="number" class="form-control" id="due_amount" x-ref="due" name="due_amount"
-                                        placeholder="Due Amount" x-on:input="$refs.paid.value = $refs.total.value - $refs.due.value"
+                                    <input type="number" class="form-control" id="due_amount" x-ref="due"
+                                        name="due_amount" placeholder="Due Amount"
+                                        x-on:input="$refs.paid.value = $refs.total.value - $refs.due.value"
                                         x-on:blur="setStatus()">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label for="status">Payment Status<small class="text-info">[Taka]</small></label>
+                                    <label for="status">Payment Status<small class="text-info">[Taka]</small></label> <br>
                                     <select name="status" id="status" x-ref="status" class="form-control" required>
                                         <option></option>
                                         <option value="paid">Paid</option>
@@ -226,8 +228,9 @@
                 </div>
             </div>
 
-            <div class="col-8">
-                <div class="card">
+
+            <div class="col-md-8 col-lg-8 col-sm-12">
+                <div class="card" style="margin-bottom:70px">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -255,6 +258,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </form>
 
@@ -289,8 +294,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="phone">Phone</label>
-                                            <input type="tel" class="form-control" id="phone" name="phone"
-                                                placeholder="01XXX-XXXXXX" pattern="[0-9]{5}-[0-9]{6}">
+                                            <input type="tel" class="form-control" id="phone" name="phone" >
                                             <small>Format: 01XXX-XXXXXX</small>
                                         </div>
                                         <div class="form-group">
@@ -315,6 +319,45 @@
         </div>
     </div>
 @endsection
+
+<style>
+    /* Media Query for Mobile Devices */
+    @media (max-width: 768px) {
+        .invoice-input.p_name{
+            width: 120px;
+        }
+        .invoice-input.quantity {
+            max-width: 40px;
+        }
+
+        .invoice-table th {
+            padding-left: 10px;
+            font-size: 10px;
+        }
+        .price{
+            max-width: 50px;
+        }
+        .sub_total{
+            max-width: 50px !important;
+        }
+    }
+    @media (min-width: 1024px) {
+        .invoice-input.p_name{
+            width: 220px;
+        }
+        .invoice-input.quantity {
+            max-width: 130px;
+        }
+
+
+        .price{
+            max-width: 150px;
+        }
+        .sub_total{
+            max-width: 150px!important;
+        }
+    }
+</style>
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -430,7 +473,7 @@
 
                 $('#invoiceTable').append(`<tr id="row-${i}" x-ref="row-${i}" class="border-bottom border-dark single-product">
                 <input type="hidden" name="products[${i}][batch_id]" value="${batch_id}">
-                <td><input class="invoice-input" type="text" name="products[${i}][name]" value="${product_name}" readonly></td>
+                <td><input class="invoice-input p_name" type="text" name="products[${i}][name]" value="${product_name}" readonly></td>
                 <td>
                     <input x-ref="quantity-${i}" class="invoice-input quantity" type="number" name="products[${i}][quantity]" x-on:input="calculateSubTotal(${i})" min="1" value="1" required>
                 </td>
