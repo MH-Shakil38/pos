@@ -6,6 +6,7 @@ use App\Models\Batch;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\Report;
+use App\Services\InvoiceService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class DashboardController extends Controller
     {
         $report = new Report();
         $currentDateInvoices = Invoice::whereDate('created_at', Carbon::now())->take(5)->get();
-
+        InvoiceService::changeShippingStatus();
         // Today's all report
         $dailyReport = $report->getReport('daily', null, null);
 

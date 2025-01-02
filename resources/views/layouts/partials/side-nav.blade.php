@@ -21,6 +21,9 @@
                         <li><a href="{{ route('invoices.create') }}">Create New Invoice</a></li>
                     </ul>
                 </li>
+
+
+
                 <li class="nav-item pcoded-menu-caption">
                     <label>Products</label>
                 </li>

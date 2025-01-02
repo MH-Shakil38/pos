@@ -9,6 +9,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Invoice extends Model
 {
     use HasFactory;
+    protected $table = 'invoices';
+    protected $fillable = [
+        'invoice_no',
+        'customer_id',
+        'shipping_id',
+        'products',
+        'total',
+        'due',
+        'status',
+        'profit',
+    ];
     protected $casts = [
         'data' => 'array'
     ];
@@ -21,5 +32,8 @@ class Invoice extends Model
     public function shipping(): BelongsTo
     {
         return $this->belongsTo(Shipping::class);
+    }
+    public function payment(){
+        return $this->hasMany(InvoicePayment::class,'invoice_id');
     }
 }

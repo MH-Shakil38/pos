@@ -9,7 +9,7 @@
 <form method="POST" action="{{ route('expenses.store') }}">
     @csrf
     <div class="row">
-        <div class="col-8">
+        <div class="col-md-8 col-sm-12">
             <div class="card">
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-md-4 col-sm-12">
 
         </div>
 </form>

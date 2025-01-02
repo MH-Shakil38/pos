@@ -10,7 +10,7 @@
     @method('PUT')
     @csrf
     <div class="row">
-        <div class="col-8">
+        <div class="col-md-8 col-sm-12">
             <div class="card">
                 @if ($errors->any())
                 <div class="alert alert-danger">

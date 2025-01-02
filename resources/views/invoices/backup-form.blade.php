@@ -57,7 +57,6 @@
 
 
 @section('main')
-
     <form method="POST" action="{{ route('invoices.store') }}" x-effect="calculateTotal()" x-data="{
         removeRow: function(i) {
             this.$refs['row-' + i].remove();
@@ -115,42 +114,150 @@
         },
     }">
         @csrf
-        <div class="m-auto">
-            <div class="text-center">
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home"
-                            type="button" role="tab" aria-controls="pills-home" aria-selected="true">Product Info</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile"
-                            type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Pay Info </button>
-                    </li>
-                    {{-- <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-contact-tab" data-toggle="pill" data-target="#pills-contact"
-                            type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Customer</button>
-                    </li> --}}
-                </ul>
-            </div>
-        </div>
-
-
         <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Create Invoice</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{-- @foreach ($batches as $product)
+                        {{ dd($product->product) }}
+                        @endforeach --}}
 
-            <div class="tab-content" id="pills-tabContent" style="width: 100%">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                    @include('invoices.tab.product-info')
+                            <label for="products">Select Product(s)</label>
+                            <select class="form-control js-example-basic-single" id="products" x-ref="product">
+                                <option></option>
+                                @foreach ($batches as $product)
+                                    <option
+                                        product_name="{{ $product->product->name }} ({{ $product->product->color->name ?? '' }},{{ $product->product->size->name ?? '' }})"
+                                        product_price="{{ $product->sell_price }}" value="{{ $product->id }}">
+                                        {{ $product->product->name }}
+                                        ({{ $product->product->color->name ?? '' }},{{ $product->product->size->name ?? '' }})
+                                        -
+                                        <span>Purchase Price: {{ $product->purchase_price }} tk/-</span>
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="form-group ajax-customer">
+                                    <label for="customers">Customer</label>
+                                    <select class="form-control js-example-basic-single" name="customer_id" id="customers"
+                                        required>
+                                        <option></option>
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->name }} -
+                                                ({{ $customer->phone }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-2 " style="padding: 0px; margin-top: 30px;color:#fff">
+                                <div class="form-group">
+                                    <a class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModal">
+                                        <i class="feather icon-plus"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="total">Total <small class="text-info">[Taka]</small></label>
+                                    <input type="number" class="form-control" id="total" x-ref="total" name="total"
+                                        placeholder="Total Purchase Cost">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="paid">Paid <small class="text-info">[Taka]</small></label>
+                                    <input type="number" class="form-control" id="paid" x-ref="paid"
+                                        placeholder="Paid Amount"
+                                        x-on:input="$refs.due.value = $refs.total.value - $refs.paid.value"
+                                        x-on:blur="setStatus()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Due<small class="text-info">[Taka]</small></label>
+                                    <input type="number" class="form-control" id="due_amount" x-ref="due"
+                                        name="due_amount" placeholder="Due Amount"
+                                        x-on:input="$refs.paid.value = $refs.total.value - $refs.due.value"
+                                        x-on:blur="setStatus()">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="status">Payment Status<small class="text-info">[Taka]</small></label> <br>
+                                    <select name="status" id="status" x-ref="status" class="form-control" required>
+                                        <option></option>
+                                        <option value="paid">Paid</option>
+                                        <option value="partial">Partial</option>
+                                        <option value="due">Due</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Currier Number</label>
+                                    <input type="text" class="form-control" name="currier_number">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="status">Shipping Cost<small class="text-info">[Taka]</small></label>
+                                    <select name="shipping_cost" class="form-control" required>
+                                        <option value="0">Free Shipping</option>
+                                        <option value="80">80</option>
+                                        <option value="150">150</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                    @include('invoices.tab.payment-info')
-                </div>
-                {{-- <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                    @include('invoices.tab.customer-info')
-                </div> --}}
             </div>
 
 
-
+            <div class="col-md-8 col-lg-8 col-sm-12">
+                <div class="card" style="margin-bottom:70px">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="card-header">
+                        <h5>Products Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="invoice-table" id="invoiceTable" x-ref="invoiceTable">
+                            <tr>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Sell Price</th>
+                                <th>Sub Total</th>
+                            </tr>
+                        </table>
+                        <button x-ref="createInvoiceBtn" id="createInvoiceBtn" style="display: none;" type="submit"
+                            class="btn  btn-primary btn-sm show btn-block">Create
+                            Invoice</button>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
@@ -187,7 +294,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="phone">Phone</label>
-                                            <input type="tel" class="form-control" id="phone" name="phone">
+                                            <input type="tel" class="form-control" id="phone" name="phone" >
                                             <small>Format: 01XXX-XXXXXX</small>
                                         </div>
                                         <div class="form-group">
@@ -216,10 +323,9 @@
 <style>
     /* Media Query for Mobile Devices */
     @media (max-width: 768px) {
-        .invoice-input.p_name {
+        .invoice-input.p_name{
             width: 120px;
         }
-
         .invoice-input.quantity {
             max-width: 40px;
         }
@@ -228,32 +334,27 @@
             padding-left: 10px;
             font-size: 10px;
         }
-
-        .price {
+        .price{
             max-width: 50px;
         }
-
-        .sub_total {
+        .sub_total{
             max-width: 50px !important;
         }
     }
-
     @media (min-width: 1024px) {
-        .invoice-input.p_name {
+        .invoice-input.p_name{
             width: 220px;
         }
-
         .invoice-input.quantity {
             max-width: 130px;
         }
 
 
-        .price {
+        .price{
             max-width: 150px;
         }
-
-        .sub_total {
-            max-width: 150px !important;
+        .sub_total{
+            max-width: 150px!important;
         }
     }
 </style>

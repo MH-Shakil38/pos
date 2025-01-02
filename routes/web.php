@@ -14,6 +14,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SizeController;
 use Illuminate\Support\Facades\Artisan;
 
@@ -55,6 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('expenses', ExpenseController::class);
     // Managing Expenses Categories
     Route::resource('types', TypeController::class);
+    //Manage Shipping
+    Route::resource('shippings', ShippingController::class);
     // Managing Reports
     Route::get('/reports', [ReportController::class, 'index'])->name('reports');
     // Managing Reports

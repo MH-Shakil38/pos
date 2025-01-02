@@ -50,7 +50,7 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        //
+        return view('suppliers.report',compact('supplier'));
     }
 
     /**

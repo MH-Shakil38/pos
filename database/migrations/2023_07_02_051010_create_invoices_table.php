@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('invoice_no');
             $table->integer('customer_id');
-            $table->integer('shipping_id');
+            $table->integer('shipping_id')->nullable();
             $table->json('products');
             $table->integer('total');
             $table->integer('due');

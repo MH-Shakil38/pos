@@ -41,7 +41,7 @@
     @method('PUT')
     @csrf
     <div class="row">
-        <div class="col-8">
+        <div class="col-md-8 col-lg-8 col-sm-12">
             <div class="card">
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -114,17 +114,19 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="submit" class="btn  btn-primary">Edit Product</button>
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-md-4 col-lg-4 col-sm-12">
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
                         <label for="image">Product Image</label>
                         <input type="file" data-default-file="{{ asset('storage/products/'.$product->image) }}"
                             class="dropify form-control" id="image" name="image">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn  btn-primary form-control" >Edit Product</button>
                     </div>
                 </div>
             </div>

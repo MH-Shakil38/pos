@@ -40,7 +40,7 @@
 <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="row">
-        <div class="col-8">
+        <div class="col-md-8 col-lg-8 col-sm-12">
             <div class="card">
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -69,7 +69,7 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select A Brand</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="brand_id">
-                                    <option selected disabled>Please select a brand</option>
+                                    {{-- <option selected disabled>Please select a brand</option> --}}
                                     @foreach ($brands as $brand)
                                     <option value="{{ $brand->id ?? old('brand_id') }}">{{ $brand->name }}</option>
                                     @endforeach
@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="categories">Select Categories</label>
+                        <label for="categories">Select Categories</label> <br>
                         <select class="form-control js-examples-basic-multiple" name="categories[]" id="categories"
                             multiple resolve>
                             @foreach ($categories as $category)
@@ -109,16 +109,18 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="submit" class="btn  btn-primary">Add</button>
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-md-4 col-lg-4 col-sm-12">
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="image">Product Name</label>
+                        <label for="image">Product Image</label>
                         <input type="file" class="dropify form-control" id="image" name="image">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn  btn-primary form-control" >Add</button>
                     </div>
                 </div>
             </div>

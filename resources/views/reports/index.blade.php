@@ -47,13 +47,13 @@
     <div class="card-body">
         <form action="{{ route('reports') }}" method="GET">
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label for="birthday">To:</label>
                         <input class="form-control" type="date" id="birthday" name="to" required>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label for="birthday">From:</label>
                         <input class="form-control" type="date" id="birthday" name="from" required>
@@ -180,10 +180,10 @@
             </tbody>
         </table>
         <div class="row m-t-10">
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
                 <button class="btn border-dark btn-block"><i class="feather icon-printer"></i> Print</button>
             </div>
-            <div class="col-6">
+            <div class="col-md-6 col-sm-12">
                 <button class="btn border-dark btn-block"><i class="feather icon-download"></i> Download</button>
             </div>
         </div>

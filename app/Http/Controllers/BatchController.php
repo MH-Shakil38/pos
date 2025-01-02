@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Batch\BatchStoreRequest;
+use App\Http\Requests\Batch\BatchUpdateRequest;
 use App\Models\Batch;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Services\BatchService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class BatchController extends Controller
@@ -16,10 +20,7 @@ class BatchController extends Controller
      */
     public function index()
     {
-        $batches = Batch::with(['product' => function ($query) {
-                        $query->withTrashed();
-                    }])->get();
-
+        $batches = BatchService::getBatch();
         return view('batches.index', compact('batches'));
     }
 
@@ -36,34 +37,18 @@ class BatchController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BatchStoreRequest $request)
     {
-        $request->validate([
-            'product_id' => 'required',
-            'quantity' => 'required',
-            'purchase_price' => 'required',
-            'sell_price' => 'required',
-            'supplier_id' => 'required',
-            'total_purchase_cost' => 'required',
-            'due_amount' => 'required',
-            'status' => 'required',
-        ]);
-
-        $batch = new Batch();
-
-        $batch->batch_no = 'batch-' . Str::random(5) . '-' . Carbon::now()->format('D-M-Y');
-        $batch->product_id = $request->product_id;
-        $batch->quantity = $request->quantity;
-        $batch->rem_quantity = $request->quantity;
-        $batch->purchase_price = $request->purchase_price;
-        $batch->sell_price = $request->sell_price;
-        $batch->supplier_id = $request->supplier_id;
-        $batch->total_purchase_cost = $request->total_purchase_cost;
-        $batch->due_amount = $request->due_amount;
-        $batch->status = $request->status;
-        $batch->save();
-
-        return redirect()->route('batches.index');
+        try{
+            DB::beginTransaction();
+            $batch   = BatchService::batchStore($request->all());
+            $payment = BatchService::bacthPayment($batch);
+            DB::commit();
+            return redirect()->route('batches.index');
+        }catch(\Throwable $e){
+            DB::rollBack();
+            dd($e);
+        }
     }
 
     /**
@@ -79,7 +64,6 @@ class BatchController extends Controller
      */
     public function edit(Batch $batch,  Request $request)
     {
-
         $type = $request->type;
         $products = Product::all();
         $suppliers = Supplier::all();
@@ -92,33 +76,21 @@ class BatchController extends Controller
      */
     public function update(Request $request, Batch $batch)
     {
-
         if ($request->type === 'adjust_payment') {
             $request->validate([
                 'status' => 'required',
                 'due_amount' => 'required'
-            ]);
-
-            $batch->status = $request->status;
-            $batch->due_amount = $request->due_amount;
-        } else {
-
-            if ($batch->status == 'paid' && $request->status == 'partial') {
-                $batch->status = 'partial';
-            } elseif ($batch->status == 'paid' && $request->status == 'due') {
-                $batch->status = 'partial';
-            } elseif ($batch->status == 'due' && $request->status == 'paid') {
-                $batch->status = 'partial';
-            }
-
-            $batch->quantity = $batch->quantity + $request->quantity;
-            $batch->total_purchase_cost = $batch->total_purchase_cost + $request->total_purchase_cost;
-            $batch->due_amount = $request->due_amount + $batch->due_amount;
+          ]);
         }
-
-
-        $batch->update();
-        return redirect()->route('batches.index');
+        try{
+            DB::beginTransaction();
+            BatchService::batchUpdate($batch);
+            DB::commit();
+            return redirect()->route('batches.index');
+        }catch(\Throwable $e){
+            DB::rollBack();
+            dd($e);
+    }
     }
 
     /**

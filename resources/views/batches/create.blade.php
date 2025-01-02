@@ -40,7 +40,7 @@
         paid_amount: 0,
         due_amount: 0,
     }">
-        <div class="col-8">
+        <div class="col-md-8 col-lg-8 col-sm-12">
             <div class="card">
                 @if ($errors->any())
                 <div class="alert alert-danger">
@@ -81,11 +81,11 @@
                             placeholder="Per Unit Sell Price">
                     </div>
 
-                    <button type="submit" class="btn  btn-primary">Add Batch</button>
+
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-md-4 col-lg-4 col-sm-12">
             <div class="card">
                 <div class="card-header">
                     <h5>-</h5>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <label for="status">Payment Status:</label>
-                        <select name="status" id="status" class="form-control" x-model="status"
+                        <select name="status" id="status" class="form-control" x-model="status" required
                             x-on:change="paid = (status === 'paid' || status ==='due') ? true : false, paid_amount = (status === 'paid') ? total_purchase_cost : 0">
                             <option disabled value="">Payment Status</option>
                             @foreach(['paid', 'partial', 'due'] as $option)
@@ -117,7 +117,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Paid Amount <small class="text-info">[Taka]</small></label>
-                        <input type="number" class="form-control" id="name" placeholder="Paid Amount"
+                        <input type="number" class="form-control" id="name" name="paid_amount" placeholder="Paid Amount" value="{{ old('payment') }}"
                             x-bind:disabled="paid" x-model.number="paid_amount">
                     </div>
                     <div class="form-group">
@@ -125,6 +125,20 @@
                         <input type="number" class="form-control" id="due_amount" name="due_amount"
                             placeholder="Due Amount" x-bind:readonly="paid" x-model.number="due_amount" required>
                     </div>
+                    <div class="form-group">
+                        <label for="payment_type">Payment Type <small class="text-info">[Taka]</small></label>
+                        <select name="payment_type" id="" class="form-control">
+                            <option value="Cash">Cash</option>
+                            <option value="Mobile Banking">Mobile Banking</option>
+                            <option value="Bank">Bank</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="paid_amount">Payable Amount <small class="text-info">[Taka]</small></label>
+                        <textarea name="note" id="" class="form-control" cols="30" rows="3">{{ old('note') }}</textarea>
+                    </div>
+                    <button type="submit" class="btn  btn-primary form-control">Add Batch</button>
                 </div>
             </div>
         </div>

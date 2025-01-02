@@ -13,10 +13,19 @@ return new class extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->string('currier_number')->nullable();
+            $table->string('consignment_id')->nullable();
+            $table->string('tracking_code')->nullable();
+            $table->double('total')->nullable();
+            $table->double('paid')->nullable();
+            $table->double('due')->nullable();
+            $table->string('cod_amount')->nullable();
+            $table->string('recipient_name')->nullable();
+            $table->string('recipient_phone')->nullable();
+            $table->longText('recipient_address')->nullable();
+            $table->string('status')->nullable();
+            $table->string('shipping_status')->nullable();
             $table->integer('shipping_cost')->nullable();
-            $table->unsignedBigInteger('invoice_no')->nullable();
-            $table->integer('status')->default(1)->comment('1-pending,2-success,3-Return');
+            $table->longText('invoice_no')->nullable();
             $table->timestamps();
         });
     }

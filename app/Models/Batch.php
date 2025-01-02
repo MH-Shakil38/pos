@@ -20,4 +20,7 @@ class Batch extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+    public function payment(){
+        return $this->hasMany(BatchPayment::class,'batch_id');
+    }
 }

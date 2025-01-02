@@ -119,7 +119,7 @@
 
         <!-- Customer Details -->
         <div class="customer-details" style="margin: 0px;font-size:14px;line-height:0.8rem;margin-bottom:10px">
-           <p> <strong>Currier number: </strong> {{ $invoice->shipping->currier_number }}</p>
+           {{-- <p> <strong>Currier number: </strong> {{ $invoice->shipping->currier_number }}</p> --}}
             <p><strong>Name:</strong> {{ $invoice->customer->name }}</p>
             <p><strong>Phone:</strong> {{ $invoice->customer->phone }}</p>
             <p><strong>Address:</strong> {{ $invoice->customer->address }}</p>
@@ -152,7 +152,7 @@
                 </tr>
                 <tr>
                     <td colspan="4" style="text-align: right"><strong>Shipping Cost:</strong></td>
-                    <td>{{ $invoice->shipping->shipping_cost }}</td>
+                    <td>{{ $invoice->shipping->shipping_cost ?? 0 }}</td>
                 </tr>
                 <tr>
                     <td colspan="4" style="text-align: right"><strong>Paid:</strong></td>

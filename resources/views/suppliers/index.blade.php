@@ -35,6 +35,9 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Total</th>
+                    <th>Paid</th>
+                    <th>Due</th>
                     <th>Address</th>
                     <th>Action</th>
                 </tr>
@@ -46,8 +49,14 @@
                     <td>{{ $supplier->name }}</td>
                     <td>{{ $supplier->phone }}</td>
                     <td>{{ $supplier->email }}</td>
+                    <td>{{ $supplier->batch->sum('total_purchase_cost') }}</td>
+                    <td>{{ $supplier->batch->sum('total_purchase_cost') - $supplier->batch->sum('due_amount') }}</td>
+                    <td>{{ $supplier->batch->sum('due_amount') }}</td>
                     <td>{{ $supplier->address }}</td>
-                    <td><a class="text-info" href="{{ route('suppliers.edit', $supplier->id) }}"><i
+                    <td>
+                            <a class="text-info" href="{{ route('suppliers.show', $supplier->id) }}"><i
+                                class="feather icon-edit"></i> Report</a>|
+                        <a class="text-info" href="{{ route('suppliers.edit', $supplier->id) }}"><i
                                 class="feather icon-edit"></i> Edit</a>|
                         <a class="text-danger" href="javascript:{}" onclick="deleteFunction({{ $supplier->id }})"><i
                                 class="feather icon-trash"></i>
@@ -57,6 +66,7 @@
                             @method('DELETE')
                             @csrf
                         </form>
+
                     </td>
                 </tr>
                 @endforeach
@@ -88,19 +98,19 @@
 
 
     function deleteFunction (id) {
-        
+
         JSAlert.confirm("This cant be restored.", "Sure you want to delete ?", JSAlert.Icons.Deleted).then(function(result) {
 
         // Check if pressed yes
         if (!result)
         return;
-        
+
         // User pressed yes!
         $('#deleteForm_'+id).submit();
         JSAlert.alert("Supplier deleted!");
-        
+
         });
-        
+
     }
 </script>
 
