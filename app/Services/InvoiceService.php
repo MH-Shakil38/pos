@@ -16,7 +16,7 @@ class InvoiceService
         public static function bulkCreate($data){
             $item = array();
             $customer = Customer::query()->findOrFail($data->customer_id);
-            // foreach(json_decode($data->products) as $order){
+            foreach(json_decode($data->products) as $order){
             $item[] = [
                 'invoice' => $data->id,
                 'recipient_name' => $customer->name ? $customer->name : 'N/A',
@@ -25,8 +25,7 @@ class InvoiceService
                 'cod_amount' => $data->due + (request()->shipping_cost ?? 0),
                 'note' => $data->note ?? '',
                 ];
-            // }
-
+            }
 
             $steadfast = new Steadfast();
 

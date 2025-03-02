@@ -4,200 +4,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $settings->shop_name }}</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <title>Invoice</title>
     <style>
-        @font-face {
-            font-family: 'SolaimanLipi';
-            src: url('{{ public_path('fonts/SolaimanLipi.ttf') }}') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        body {
-            font-family: 'SolaimanLipi', sans-serif;
-            font-size: 16px;
-            /* Adjust the font size if needed */
-        }
-
-        .invoice-container {
-            font-family: 'SolaimanLipi', sans-serif;
-            font-size: 14px;
-            /* Make sure the font size is readable */
-        }
-
-        @font-face {
-            font-family: 'SolaimanLipi';
-            src: url('storage/fonts/SolaimanLipi.ttf') format('truetype');
-        }
-
-        body {
-            font-family: 'SolaimanLipi', sans-serif;
-            /* background: #f9f9f9; */
-        }
-
-        .invoice-container {
-            max-width: 100%;
+        #invoice-POS {
+            box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+            padding: 2.5mm;
             margin: 0 auto;
-        }
+            width: 100mm;
+            height: 100mm;
+            background: #FFF;
 
-        .header,
-        .footer {
-            text-align: center;
-        }
 
-        .logo img {
-            width: 150px;
-            height: auto;
-        }
+            ::selection {
+                background: #f31544;
+                color: #FFF;
+            }
 
-        .company-details,
-        .customer-details {
-            margin-bottom: 10px;
-        }
+            ::moz-selection {
+                background: #f31544;
+                color: #FFF;
+            }
 
-        .company-details p,
-        .customer-details p {
-            margin: 5px 0;
-        }
+            h1 {
+                font-size: 1.5em;
+                color: #222;
+            }
 
-        .invoice-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
+            h2 {
+                font-size: .9em;
+            }
 
-        .invoice-table th,
-        .invoice-table td {
-            border: 1px solid #ddd;
-            /* padding: 8px; */
-            text-align: center;
-        }
+            h3 {
+                font-size: 1.2em;
+                font-weight: 300;
+                line-height: 2em;
+            }
 
-        .invoice-table th {
-            background-color: #f2f2f2;
-        }
+            p {
+                font-size: .7em;
+                color: #666;
+                line-height: 1.2em;
+            }
 
-        .total-section {
-            width: 100%;
-            text-align: right;
-        }
+            #top,
+            #mid,
+            #bot {
+                /* Targets all id with 'col-' */
+                border-bottom: 1px solid #EEE;
+            }
 
-        .total-section table {
-            width: 50%;
-            margin-top: 10px;
-            border: 0;
-            text-align: right;
-        }
+            #top {
+                min-height: 100px;
+            }
 
-        .total-section td {
-            padding: 0px;
+            #mid {
+                min-height: 71px;
+            }
+
+            #bot {
+                min-height: 50px;
+            }
+
+            #top .logo {
+                //float: left;
+                height: 60px;
+                width: 60px;
+                background: url({{ public_path($settings->logo) }}) no-repeat;
+                background-size: 60px 60px;
+            }
+
+            .clientlogo {
+                float: left;
+                height: 60px;
+                width: 60px;
+                background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+                background-size: 60px 60px;
+                border-radius: 50px;
+            }
+
+            .info {
+                display: block;
+                //float:left;
+                margin-left: 0;
+            }
+
+            .title {
+                float: right;
+            }
+
+            .title p {
+                text-align: right;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            td {
+                //padding: 5px 0 5px 15px;
+                //border: 1px solid #EEE
+            }
+
+            .tabletitle {
+                //padding: 5px;
+                font-size: .5em;
+                background: #EEE;
+            }
+
+            .service {
+                border-bottom: 1px solid #EEE;
+            }
+
+            .item {
+                width: 24mm;
+            }
+
+            .itemtext {
+                font-size: .5em;
+            }
+
+            #legalcopy {
+                margin-top: 5mm;
+            }
+
+            .site_name {}
         }
     </style>
 </head>
 
+<body>
 
-<body style="width:300px;margin:0 auto;">
-    <div class="invoice-container" style="">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <img src="{{ public_path($settings->logo) }}" style="margin: -20px;widht:100px;height:70px">
-            </div>
-            <div class="company-details" style="border-bottom: 1px solid #6d6d6d;line-height:0.8rem;">
-                <p><strong>{{ $settings->shop_name }}</strong></p>
-                <p>Email: exoticagro@gmail.com</p>
-                <p>Phone: 01708436477</p>
-                <p>Address: 482, South Goran, Khillgoan, Dhaka,
-                    Bangladesh, 1219
-                    </p>
-            </div>
-        </div>
+    <div id="invoice-POS">
 
+        {{-- <center id="top">
+            <div class="logo"></div>
+            <div class="info site_name" >
+                <h2 style="margin: 0px; font-size: 26px; color: #6a6a6a; padding: 0px">{{ $settings->name }}</h2>
+            </div><!--End Info-->
+        </center><!--End InvoiceTop--> --}}
 
-
-        <!-- Customer Details -->
-        <div class="customer-details" style="margin: 0px;font-size:14px;line-height:0.8rem;margin-bottom:10px">
-           {{-- <p> <strong>Currier number: </strong> {{ $invoice->shipping->currier_number }}</p> --}}
-            <p><strong>Name:</strong> {{ $invoice->customer->name }}</p>
-            <p><strong>Phone:</strong> {{ $invoice->customer->phone }}</p>
-            <p><strong>Address:</strong> {{ $invoice->customer->address }}</p>
-        </div>
-
-        <!-- Order Details -->
-        <table class="invoice-table">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td> <strong>Name</strong> </td>
-                    <td><strong>QTY</strong></td>
-                    <td><strong>Price</strong></td>
-                    <td><strong>Total</strong></td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($products as $key => $product)
-                    <tr>
-                        <td class="col-1">{{ $key + 1 }}</td>
-                        <td class="col-5 text-1" style="font-size: 11px">{{ $product->name }} </td>
-                        <td class="col-2 text-center" style="font-size: 14px">{{ $product->quantity }}</td>
-                        <td class="col-1 text-center" style="font-size: 12px">{{ $product->price }}/-</td>
-                        <td class="col-2 " style="font-size: 12px">{{ $product->total }}/-</td>
+        <div id="mid">
+            <div class="info">
+                <h2
+                    style="    margin: 0 auto;
+    text-align: center;
+    font-size: 58px;
+        margin-top: 45px !important;
+    font-family: emoji;
+    color: #616161;">
+                    Abaya Elite</h2>
+                <p style="margin: 0px;
+    text-align: center;
+    font-size: 15px;"> <span>www.facebook.com/abayaelite </p>
+                <p style="margin: 5px;
+    text-align: center;
+    font-size: 18px;">Phone: 01960504000</p>
+                <table style="marging-bottom:5px">
+                    <tr style="text-align: center">
+                        <td class="col-4" style="color: #4e4e4e;
+    font-size: 10px;"><strong>Customer Name:</strong>
+                            {{ $invoice->customer->name }}</td>
+                        <td class="col-4" style="color: #4e4e4e;
+    font-size: 10px;"> <strong>Phone:</strong>
+                            {{ $invoice->customer->phone }}</td>
+                        <td class="col-4" style="color: #4e4e4e;
+    font-size: 10px;"> <strong>Location:</strong>
+                            {{ $invoice->customer->address }}</td>
                     </tr>
-                @endforeach
-                <tr>
-                    <td colspan="4" style="text-align: right"><strong>Total:</strong></td>
-                    <td>{{ $invoice->total }}/-</td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="text-align: right"><strong>Shipping Cost:</strong></td>
-                    <td>{{ $invoice->shipping->shipping_cost ?? 0 }}</td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="text-align: right"><strong>Paid:</strong></td>
-                    <td>{{ $invoice->total - $invoice->due }}/-</td>
-                </tr>
+                </table>
+                {{-- <p style="margin-top:5px;margin-bottom:2px ">
+                    Name : {{ $invoice->customer->name }}</br>
+                    Phone : {{ $invoice->customer->phone }}</br>
+                    Address : {{ $invoice->customer->address }}</br>
+                </p> --}}
+            </div>
+        </div><!--End Invoice Mid-->
 
+        <div id="bot" style="padding: 20px">
+            <div id="table">
+                <table>
+                    <tr>
+                        <td class="col-4"></td>
+                        <td class="col-4"><span style="color: #6a6a6a;
+                            font-size: 18px;
+                            text-align: right;
+                            float: right;
+                            margin-right: 35px;">Bill Amount</span> </td>
+                        <td class="col-4" style="text-align:center"> <strong style="    font-size: 16px;
+    color: #626262;"> {{ $invoice->total }}</strong></td>
+                    </tr>
+                    <tr style="margin-top: 10px">
+                        <td class="col-4"><span style="color: #6a6a6a; font-size: 20px;"></span> </td>
+                        <td class="col-4"> <span style="color: #6a6a6a;
+                            font-size: 18px;
+                            text-align: right;
+                            float: right;
+                            margin-right: 35px;">Delivery Charge</span></td>
+                        <td class="col-4" style="text-align:center"> <strong style="    font-size: 16px;
+    color: #626262;"> {{ $invoice->shipping->shipping_cost ?? 0 }}</strong></td>
+                    </tr>
 
-                <tr>
-                    <td colspan="4" style="text-align: right"><strong>Due:</strong></td>
-                    <td>{{ $invoice->due }}/-</td>
-                </tr>
-            </tbody>
-        </table>
+                    <tr style="margin-top: 10px">
+                        <td class="col-4"><strong style="color: #6a6a6a; font-size: 20px;"></strong> </td>
+                        <td class="col-4"> <strong style="color: #6a6a6a;
+    font-size: 18px;
+    text-align: right;
+    float: right;
+    margin-right: 35px;">Total</strong></td>
+                        <td class="col-4" style="text-align:center"> <strong style="    font-size: 16px;
+    color: #626262;"> {{ $invoice->total + $invoice->shipping->shipping_cost ?? 0 }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"> <span style="font-size: 10px;color: #4d4c4c;">
+                            Note:
+                            @forelse ($products as $key => $product)
+                            {{ str_replace('(,)', '', $product->name) }} qty-{{ $product->quantity }},
 
-        <!-- Total Section -->
-        {{-- <div class="" style="text-align: right">
-        <table>
-            <tr>
-                <td>Shipping Cost:</td>
-                <td>{{ $order->delivery_cost }}</td>
-            </tr>
-            <tr>
-                <td><strong>Total:</strong></td>
-                <td><strong>{{ $order->orders->sum('total') + $order->delivery_cost ?? 0 }}</strong></td>
-            </tr>
-        </table>
-    </div> --}}
+                            @empty
 
-        <!-- Footer -->
+                            @endforelse ()
+                            </span></td>
+                    </tr>
 
-        <div class="footer" style="border-top: 1px solid #6d6d6d">
-            <p style="font-size: 11px">Thank you for your purchase! If you have any questions, feel free to contact us
-                at  exoticagro@gmail.com  or 01708436477.</p>
-            <p style="font-size: 11px; color: #555; margin-top: 5px;">&copy; {{ date('Y') }}
-                {{ $settings->shop_name }}. All rights reserved.</p>
+                    <tr>
+                        <td colspan="3" style="text-align: center"> <span style="font-size: 16px;
+    color: #000000;
+    /* border: 1px dashed; */
+    padding: 2px;
+    font-family: math;border-top:1px solid #ddd;margin-top:5px"> <span>Customer ID:</span> <strong>{{ $invoice->shipping->consignment_id}}</strong>, <span>Marcent ID:</span> <strong>47645</strong> </span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"> <strong style="font-size: 25px;color:#4d4c4c">----------------------------------------</strong> </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-
-        <footer class="text-center mt-4">
-
-            <div class="btn-group btn-group-sm d-print-none"> <a href="javascript:window.print()"
-                    class="btn btn-light border text-black-50 shadow-none"><i class="fa fa-print"></i> Print</a> <a
-                    href="" class="btn btn-light border text-black-50 shadow-none"><i class="fa fa-download"></i>
-                    Download</a> </div>
-        </footer>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <div style="margin: 0 auto;text-align:center">
+        <button id="downloadImage" style="margin: 10px">Download</button>
+    </div>
+
+    <script>
+        document.getElementById("downloadImage").addEventListener("click", function() {
+            const invoice = document.getElementById("invoice-POS");
+
+            html2canvas(invoice, {
+                scale: 2
+            }).then(canvas => {
+                const imgData = canvas.toDataURL("image/png");
+                const link = document.createElement("a");
+                link.href = imgData;
+                link.download = "invoice.png";
+                link.click();
+            });
+        });
+    </script>
+
+    {{-- <button onclick="printInvoice()">Print Invoice</button>
+
+    <script>
+        function printInvoice() {
+            var printContents = document.getElementById("invoice-POS").innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            location.reload(); // Reload to restore original content
+        }
+    </script> --}}
 
 </body>
 
