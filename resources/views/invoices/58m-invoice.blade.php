@@ -232,7 +232,7 @@
     color: #000000;
     /* border: 1px dashed; */
     padding: 2px;
-    font-family: math;border-top:1px solid #ddd;margin-top:5px"> <span>Customer ID:</span> <strong>{{ $invoice->shipping->consignment_id ?? '-------------'}}</strong>, <span>Marcent ID:</span> <strong>47645</strong> </span></td>
+    font-family: math;border-top:1px solid #ddd;margin-top:5px"> <span>Customer ID:</span> <strong>{{ $invoice->shipping->consignment_id ?? '_____________'}}</strong>, <span>Marcent ID:</span> <strong>47645</strong> </span></td>
                     </tr>
                     <tr>
                         <td colspan="3"> <strong style="font-size: 25px;color:#4d4c4c">----------------------------------------</strong> </td>
