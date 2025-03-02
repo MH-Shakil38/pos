@@ -245,6 +245,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <div style="margin: 0 auto;text-align:center">
         <button id="downloadImage" style="margin: 10px">Download</button>
+        <button id="printImage" style="margin: 10px">Print</button>
     </div>
 
     <script>
@@ -262,6 +263,29 @@
             });
         });
     </script>
+
+<script>
+    document.getElementById("printImage").addEventListener("click", function() {
+        const invoice = document.getElementById("invoice-POS").innerHTML;
+        const printWindow = window.open("", "", "width=800,height=600");
+
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Invoice Print</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; }
+                    </style>
+                </head>
+                <body onload="window.print(); window.close();">
+                    ${invoice}
+                </body>
+            </html>
+        `);
+
+        printWindow.document.close();
+    });
+</script>
 
     {{-- <button onclick="printInvoice()">Print Invoice</button>
 
